@@ -1,52 +1,47 @@
 var udp = require('dgram');
 
 // creating a udp server
-var socket = udp.createSocket('udp4');
+var serverSocket = udp.createSocket('udp4');
 
-// emits when any error occurs
-socket.on('error', function(error){
-	console.error('Error: ' + error);
-	socket.close();
-});
 
-// emits on new datagram msg
-socket.on('message', function(msg, info){
-	console.log('Data received from client : ' + msg.toString());
-	console.log('Received %d bytes from %s:%d\n', msg.length, info.address, info.port);
-
-	// sending msg
-	socket.send(msg, info.port, 'localhost' ,function(error) {
+function sendMessageToClient (msg, port) {
+	serverSocket.send(msg, port, 'localhost', function(error) {
 		if(error) {
 			client.close();
 		} else {
-			console.log('Data sent back to client');
+			console.log('Data sent to client');
 		}
-	});
+	});	
+} 
+
+
+// emits on new datagram msg
+serverSocket.on('message', function(msg, info) {
+	console.log(info);
+	console.log('Data received from client: ' + msg.toString());
+
+	// send the message (msg) back to client:
+	// sendMessageToClient(msg, info.port);
 });
 
 
+
 // emits when socket is ready and listening for datagram msgs
-socket.on('listening', function(){
-  var address = socket.address();
-  var port = address.port;
-  var family = address.family;
-  var ipaddr = address.address;
-  console.log('Server is listening at port' + port);
-  console.log('Server ip :' + ipaddr);
-  console.log('Server is IP4/IP6 : ' + family);
+serverSocket.on('listening', function(){
+  var address = serverSocket.address();
+  console.log('Server is listening at port', address.port, '–', 'Server ip:', address.address);
+  console.log('Server is IP4/IP6', address.family);
 });
 
 
 // emits after the socket is closed using socket.close();
-socket.on('close', function() {
-	console.log('Socket is closed !');
+serverSocket.on('close', function() {
+	console.log('Socket is closed.');
 });
 
+// emits when any error occurs
+serverSocket.on('error', function(error){
+	console.error('Error: ' + error);
+});
 
-// Server can be closed using:
-// server.close();
-
-
-
-
-socket.bind(2222);
+serverSocket.bind(2222);
