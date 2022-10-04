@@ -3,7 +3,7 @@ var udp = require('dgram');
 // creating a udp server
 var serverSocket = udp.createSocket('udp4');
 
-
+// used to send data to client
 function sendMessageToClient (msg, port) {
 	serverSocket.send(msg, port, 'localhost', function(error) {
 		if(error) {
