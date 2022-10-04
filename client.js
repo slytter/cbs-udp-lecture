@@ -3,12 +3,10 @@ var udp = require('dgram');
 // creating a client socket
 var clientSocket = udp.createSocket('udp4');
 
-// buffer msg
+// On receive data from server
 clientSocket.on('message', function(msg, info) {
-  console.log('Data received from server: ' + msg.toString());
-  // console.log('Received %d bytes from %s:%d\n', msg.length, info.address, info.port);
+  // console.log('Data received from server: ' + msg.toString());
 });
-
 
 var data1 = Buffer.from('hello');
 var data2 = Buffer.from('world');
