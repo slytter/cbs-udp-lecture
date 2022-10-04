@@ -1,8 +1,5 @@
 var udp = require('dgram');
 var buffer = require('buffer');
-let Mic = require('node-microphone');
-let mic = new Mic();
-let micStream = mic.startRecording();
 
 // creating a client socket
 var client = udp.createSocket('udp4');
@@ -28,20 +25,15 @@ client.send([data1, data2], 2222, 'localhost', function(error) {
 
 
 
+const {GlobalKeyboardListener} = require("node-global-key-listener");
+const v = new GlobalKeyboardListener();
 
-
-
-// micStream.pipe(() => {});
-
-setTimeout(() => {
-    logger.info('stopped recording');
-    mic.stopRecording();
-}, 3000);
-
-mic.on('info', (info) => {
-	console.log(info);
+//Log every key that's pressed.
+v.addListener(function (e, down) {
+    console.log( 
+        `${e.name} ${e.state == "DOWN" ? "DOWN" : "UP  "} [${e.rawKey._nameRaw}]`
+    );
 });
 
-mic.on('error', (error) => {
-	console.log(error);
-});
+
+
