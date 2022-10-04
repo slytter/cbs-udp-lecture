@@ -1,0 +1,16 @@
+{
+  "name": "lec5-udp-tcp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dgram": "^1.0.1",
+    "node-microphone": "^0.1.5",
+    "tty": "^1.0.1"
+  }
+}
